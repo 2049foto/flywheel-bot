@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';/ import { ConnectButton } from '@rainbow-me/rainbowkit'; // UNCOMMENT DÒNG NÀY TRONG VS CODE
-/ import { useAccount } from 'wagmi'; // UNCOMMENT DÒNG NÀY TRONG VS CODE
+import React, { useState, useEffect } from 'react';
+// import { ConnectButton } from '@rainbow-me/rainbowkit'; // UNCOMMENT DÒNG NÀY TRONG VS CODE
+// import { useAccount } from 'wagmi'; // UNCOMMENT DÒNG NÀY TRONG VS CODE
 import { Rocket, Zap, RefreshCw, AlertCircle } from 'lucide-react';
 
 /* --- MOCK COMPONENTS CHO PREVIEW (ĐỂ KHÔNG BỊ LỖI HIỂN THỊ Ở ĐÂY) --- */
