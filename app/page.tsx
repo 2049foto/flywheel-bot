@@ -1,25 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+// Import thư viện ví thật (Đã bật sẵn)
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useWriteContract } from 'wagmi';
 import { Rocket, Zap, RefreshCw, AlertCircle } from 'lucide-react';
 
-// =================================================================================
-// ⚠️ QUAN TRỌNG: KHI COPY VÀO VS CODE, HÃY LÀM THEO 2 BƯỚC SAU:
-// BƯỚC 1: BỎ dấu // ở 2 dòng import bên dưới để bật tính năng Ví thật
-// import { ConnectButton } from '@rainbow-me/rainbowkit';
-// import { useAccount, useWriteContract } from 'wagmi';
-
-// BƯỚC 2: XÓA hoặc COMMENT lại đoạn "MOCK COMPONENTS" bên dưới này đi
-const ConnectButton = ({showBalance, chainStatus, accountStatus}: any) => (
-  <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-1.5 px-3 rounded-lg text-xs transition-colors shadow-lg shadow-blue-500/20">
-    Connect Wallet
-  </button>
-);
-const useAccount = () => ({ isConnected: true }); // Giả lập đã kết nối
-const useWriteContract = () => ({ writeContract: () => {} });
-// =================================================================================
-
 export default function FlywheelApp() {
+  // Hook của Wagmi để kiểm tra trạng thái ví thật
   const { isConnected } = useAccount();
   const [casts, setCasts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
