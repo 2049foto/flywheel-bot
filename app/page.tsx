@@ -1,9 +1,18 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount } from 'wagmi';
+import React, { useState, useEffect } from 'react';/ import { ConnectButton } from '@rainbow-me/rainbowkit'; // UNCOMMENT DÒNG NÀY TRONG VS CODE
+/ import { useAccount } from 'wagmi'; // UNCOMMENT DÒNG NÀY TRONG VS CODE
 import { Rocket, Zap, RefreshCw, AlertCircle } from 'lucide-react';
+
+/* --- MOCK COMPONENTS CHO PREVIEW (ĐỂ KHÔNG BỊ LỖI HIỂN THỊ Ở ĐÂY) --- */
+/* ⚠️ KHI DÁN VÀO VS CODE: Bạn hãy XÓA đoạn Mock này đi và UNCOMMENT đoạn Import thật ở trên nhé! */
+const ConnectButton = ({ showBalance, chainStatus, accountStatus }: any) => (
+  <button className="bg-blue-600 px-3 py-1.5 rounded-lg font-bold text-xs flex items-center gap-2 text-white hover:bg-blue-500 transition-colors">
+    Connect Wallet
+  </button>
+);
+const useAccount = () => ({ isConnected: true }); // Giả lập đã kết nối để hiện giao diện
+/* ------------------------------------------------------------------- */
 
 export default function FlywheelApp() {
   const { isConnected } = useAccount();
@@ -14,7 +23,8 @@ export default function FlywheelApp() {
   const fetchCasts = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/casts');
+      // Thêm tham số time để tránh cache trình duyệt
+      const res = await fetch(`/api/casts?t=${new Date().getTime()}`);
       const data = await res.json();
       if (data.casts) setCasts(data.casts);
     } catch (e) {
@@ -25,6 +35,7 @@ export default function FlywheelApp() {
   };
 
   useEffect(() => {
+    console.log("App đang chạy phiên bản Web3 Real Wallet"); // Log để kiểm tra
     fetchCasts();
   }, []);
 
@@ -43,11 +54,11 @@ export default function FlywheelApp() {
           <div className="bg-blue-600 p-2 rounded-lg"><Rocket size={20} /></div>
           <div>
             <h1 className="font-bold">Flywheel</h1>
-            <span className="text-[10px] text-green-400 flex items-center gap-1">● Live Data</span>
+            <span className="text-[10px] text-green-400 flex items-center gap-1">● Live Data (v2.0)</span>
           </div>
         </div>
         
-        {/* NÚT KẾT NỐI VÍ THẬT */}
+        {/* NÚT KẾT NỐI VÍ THẬT - Đảm bảo RainbowKit CSS đã được load trong layout.tsx */}
         <div className="scale-90 origin-right">
             <ConnectButton showBalance={false} chainStatus="icon" accountStatus="avatar" />
         </div>
