@@ -1,0 +1,18 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOiA4Njk5OTksICJ0eXBlIjogImN1c3RvZHkiLCAia2V5IjogIjB4N0Q4NkQyZjQyNDMwQ2QxMjhFNjliMjI1N2QyY0U1NTA1OTRhNjUzOCJ9",
+    "payload": "eyJkb21haW4iOiAiZmx5d2hlZWwtYm90LnZlcmNlbC5hcHAifQ",
+    "signature": "MHhiZmU2Z..."
+  },
+  "frame": {
+    "version": "1",
+    "name": "Flywheel Bot",
+    "iconUrl": "https://flywheel-bot.vercel.app/favicon.ico",
+    "homeUrl": "https://flywheel-bot.vercel.app",
+    "imageUrl": "https://placehold.co/600x400/1e1e1e/4ade80/png?text=Flywheel+Bot",
+    "buttonTitle": "Open Bot",
+    "splashImageUrl": "https://placehold.co/600x400/1e1e1e/4ade80/png?text=Loading...",
+    "splashBackgroundColor": "#000000",
+    "webhookUrl": "https://flywheel-bot.vercel.app/api/webhook"
+  }
+}
