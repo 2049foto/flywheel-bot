@@ -28,18 +28,3 @@ export async function GET() {
     return NextResponse.json({ error: 'Lỗi server' }, { status: 500 });
   }
 }
-```
-
-Nhớ ấn **`Ctrl + S`** để lưu lại nhé.
-
----
-
-### Việc 2: Cài đặt công cụ Web3 (Để kết nối Ví)
-
-Để người dùng kết nối được ví MetaMask/Coinbase, chúng ta cần cài bộ công cụ chuẩn của Base.
-
-1.  Mở **Terminal** (Bảng màu đen bên dưới).
-2.  Dán lệnh này vào và ấn **Enter**:
-
-```bash
-npm install @rainbow-me/rainbowkit wagmi viem@2.x @tanstack/react-query
