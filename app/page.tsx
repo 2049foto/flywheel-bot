@@ -2,15 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useWriteContract } from 'wagmi';
-import { Rocket, Zap, RefreshCw, AlertCircle, ExternalLink } from 'lucide-react';
+import { useAccount } from 'wagmi';
+import { Rocket, Zap, RefreshCw, AlertCircle } from 'lucide-react';
 
 export default function FlywheelApp() {
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const [casts, setCasts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 1. Hàm gọi API lấy dữ liệu thật từ Farcaster (thông qua file route.ts bạn đã tạo)
+  // 1. Hàm gọi API lấy dữ liệu thật từ Farcaster
   const fetchCasts = async () => {
     setLoading(true);
     try {
@@ -24,12 +24,11 @@ export default function FlywheelApp() {
     }
   };
 
-  // Tự động gọi khi mở App
   useEffect(() => {
     fetchCasts();
   }, []);
 
-  // 2. Hàm xử lý Mint (Khi bấm nút)
+  // 2. Hàm xử lý Mint (Giả lập cho MVP)
   const handleMint = () => {
     if (!isConnected) return alert("Please Connect Wallet First! (Vui lòng kết nối ví)");
     alert("🚀 Coming Soon! (Tính năng này sẽ mở ví MetaMask của bạn để ký giao dịch)");
@@ -38,7 +37,7 @@ export default function FlywheelApp() {
   return (
     <div className="flex flex-col h-screen bg-black text-white font-sans max-w-md mx-auto border-x border-gray-800 relative">
       
-      {/* HEADER: Có nút Connect Wallet thật */}
+      {/* HEADER: Nút Connect Wallet nằm ở đây */}
       <div className="p-4 border-b border-gray-800 bg-gray-900/50 flex justify-between items-center sticky top-0 z-20 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="bg-blue-600 p-2 rounded-lg"><Rocket size={20} /></div>
@@ -47,8 +46,9 @@ export default function FlywheelApp() {
             <span className="text-[10px] text-green-400 flex items-center gap-1">● Live Data</span>
           </div>
         </div>
-        {/* Nút Connect Ví Cầu Vồng */}
-        <div className="scale-75 origin-right">
+        
+        {/* NÚT KẾT NỐI VÍ THẬT */}
+        <div className="scale-90 origin-right">
             <ConnectButton showBalance={false} chainStatus="icon" accountStatus="avatar" />
         </div>
       </div>
@@ -56,22 +56,21 @@ export default function FlywheelApp() {
       {/* BODY */}
       <div className="flex-1 overflow-y-auto p-4 pb-20 space-y-4">
         
-        {/* Trạng thái kết nối */}
+        {/* Cảnh báo nếu chưa nối ví */}
         {!isConnected && (
-            <div className="bg-yellow-900/20 border border-yellow-600/30 p-3 rounded-xl flex items-center gap-3">
+            <div className="bg-yellow-900/20 border border-yellow-600/30 p-3 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
                 <AlertCircle className="text-yellow-500" size={20} />
                 <p className="text-xs text-yellow-200">Connect wallet to start earning rewards.</p>
             </div>
         )}
 
-        {/* Danh sách bài đăng THẬT */}
+        {/* Danh sách bài đăng */}
         <div className="flex justify-between items-center mt-2">
             <h3 className="text-gray-500 text-xs uppercase font-bold tracking-widest">Trending on /base</h3>
             <button onClick={fetchCasts} className="text-blue-500 hover:text-blue-400"><RefreshCw size={14}/></button>
         </div>
 
         {loading ? (
-            // Hiệu ứng đang tải
             <div className="space-y-4 animate-pulse">
                 {[1,2,3].map(i => (
                     <div key={i} className="h-32 bg-gray-900 rounded-xl"></div>
@@ -81,7 +80,6 @@ export default function FlywheelApp() {
             <div className="space-y-4">
                 {casts.map((cast: any) => (
                     <div key={cast.hash} className="bg-gray-900 border border-gray-800 p-4 rounded-xl hover:border-blue-500/30 transition-all">
-                        {/* Thông tin tác giả */}
                         <div className="flex items-center gap-2 mb-3">
                             <img src={cast.author.pfp_url} alt="pfp" className="w-8 h-8 rounded-full border border-gray-700 object-cover"/>
                             <div>
@@ -90,12 +88,10 @@ export default function FlywheelApp() {
                             </div>
                         </div>
                         
-                        {/* Nội dung bài đăng */}
                         <p className="text-sm text-gray-300 mb-3 line-clamp-4 leading-relaxed">
                             {cast.text}
                         </p>
 
-                        {/* Nút Mint */}
                         <button 
                             onClick={handleMint}
                             className="w-full bg-white text-black font-bold py-2.5 rounded-lg text-sm hover:bg-gray-200 active:scale-95 transition-all flex justify-center items-center gap-2"

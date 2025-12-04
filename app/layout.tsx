@@ -8,10 +8,10 @@ import { WagmiProvider } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-// Cấu hình mạng Base cho Ví
+// 1. Cấu hình mạng Base cho Ví
 const config = getDefaultConfig({
   appName: 'Flywheel Bot',
-  // Project ID công cộng để test (sau này có thể tạo riêng tại cloud.walletconnect.com)
+  // Project ID công cộng (dùng tạm để test)
   projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID || '3a8170812b534d0ff9d794f19a901d64',
   chains: [base],
   ssr: true, 
@@ -19,7 +19,7 @@ const config = getDefaultConfig({
 
 const queryClient = new QueryClient();
 
-// Giữ nguyên Meta Tags để Farcaster nhận diện Frame
+// 2. Cấu hình Meta Tags cho Farcaster Frame
 export const metadata = {
   title: "Flywheel Bot",
   other: {
@@ -27,6 +27,7 @@ export const metadata = {
     "fc:frame:image": "https://placehold.co/600x400/1e1e1e/4ade80/png?text=Open+Flywheel+Bot+🚀",
     "fc:frame:button:1": "Open App 🚀",
     "fc:frame:button:1:action": "link",
+    // Lưu ý: Farcaster sẽ tự dùng link hiện tại làm target, không cần hardcode
     "fc:frame:button:1:target": "https://flywheel-bot.vercel.app", 
   },
 };
