@@ -1,30 +1,28 @@
-import { NextResponse } from 'next/server';
+// app/api/frame/route.ts
+import { NextRequest } from 'next/server';
+import { verifyFramePost } from '@farcaster/frame-sdk'; // npm install @farcaster/frame-sdk
 
-export const dynamic = 'force-dynamic'; // Luôn lấy dữ liệu mới nhất
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  
+  // Kiểm tra request thật từ Warpcast (rất quan trọng)
+  const isValid = await verifyFramePost(body);
+  if (!isValid) return new Response('Invalid frame', { status: 400 });
 
-export async function GET() {
-  try {
-    const apiKey = process.env.NEYNAR_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Chưa cấu hình API Key' }, { status: 500 });
-    }
+  const { fid } = body.untrustedData; // ID người dùng Farcaster
 
-    // Gọi API lấy các bài cast mới nhất trên kênh Base
-    const response = await fetch(
-      'https://api.neynar.com/v2/farcaster/feed/channels?channel_ids=base&with_recasts=true&with_replies=false&limit=10',
-      {
-        headers: {
-          accept: 'application/json',
-          api_key: apiKey,
-        },
-        cache: 'no-store'
-      }
-    );
-
-    const data = await response.json();
-    return NextResponse.json({ casts: data.casts });
-  } catch (error) {
-    console.error('Lỗi gọi Neynar:', error);
-    return NextResponse.json({ error: 'Lỗi server' }, { status: 500 });
-  }
+  // Trả về frame mới sau khi người dùng bấm nút
+  return new Response(JSON.stringify({
+    'fc:frame': 'vNext',
+    'fc:frame:image': 'https://flywheel-bot.vercel.app/frame-connected.jpg',
+    'fc:frame:button:1': 'Mint NFT miễn phí (Zora)',
+    'fc:frame:button:1:action': 'tx',
+    'fc:frame:button:1:target': 'https://flywheel-bot.vercel.app/api/tx/mint',
+    'fc:frame:button:2': 'Launch Coin $YOURNAME',
+    'fc:frame:button:2:action': 'post',
+    'fc:frame:button:2:target': 'https://flywheel-bot.vercel.app/api/frame/launch',
+    'fc:frame:post_url': 'https://flywheel-bot.vercel.app/api/frame',
+  }), {
+    headers: { 'Content-Type': 'text/plain' },
+  });
 }
